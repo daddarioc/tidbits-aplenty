@@ -1,0 +1,25 @@
+{
+  "tidbitsApp": {
+    "tidbit": {
+      "home": {
+        "title": "Tidbits",
+        "createLabel": "Create a new Tidbit",
+        "createOrEditLabel": "Create or edit a Tidbit"
+      },
+      "created": "A new Tidbit is created with identifier {{ param }}",
+      "updated": "A Tidbit is updated with identifier {{ param }}",
+      "deleted": "A Tidbit is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Tidbit {{ id }}?"
+      },
+      "detail": {
+        "title": "Tidbit"
+      },
+      "content": "Content",
+      "author": "Author",
+      "source": "Source",
+      "url": "Url",
+      "category": "Category"
+    }
+  }
+}
