@@ -2,7 +2,9 @@ package com.daddarioc.tidbits.service.impl;
 
 import com.daddarioc.tidbits.domain.Tidbit;
 import com.daddarioc.tidbits.repository.TidbitRepository;
+import com.daddarioc.tidbits.service.TidbitQueryService;
 import com.daddarioc.tidbits.service.TidbitService;
+import com.daddarioc.tidbits.service.dto.TidbitCriteria;
 import com.daddarioc.tidbits.service.dto.TidbitDTO;
 import com.daddarioc.tidbits.service.mapper.TidbitMapper;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Service Implementation for managing Tidbit.
@@ -27,9 +30,32 @@ public class TidbitServiceImpl implements TidbitService {
 
     private final TidbitMapper tidbitMapper;
 
-    public TidbitServiceImpl(TidbitRepository tidbitRepository, TidbitMapper tidbitMapper) {
+    private final TidbitQueryService tidbitQueryService;
+
+    public TidbitServiceImpl(TidbitRepository tidbitRepository, TidbitMapper tidbitMapper, TidbitQueryService tidbitQueryService) {
         this.tidbitRepository = tidbitRepository;
         this.tidbitMapper = tidbitMapper;
+        this.tidbitQueryService = tidbitQueryService;
+    }
+
+    /**
+     * Retrieve a single random tidbit
+     * @return the entity
+     */
+    @Override
+    public Optional<TidbitDTO> getRandom() {
+        long tidbitCount = tidbitQueryService.countByCriteria(new TidbitCriteria());
+        Optional<Tidbit> tidbit;
+
+        do {
+            long tidbitIdToRetrieve = ThreadLocalRandom.current().nextLong(1, tidbitCount + 1);
+            tidbit = tidbitRepository.findById(tidbitIdToRetrieve);
+        } while (!tidbit.isPresent());
+
+        Optional<TidbitDTO> randomTidbit = Optional.of(tidbitMapper.toDto(tidbit.get()));
+
+
+        return randomTidbit;
     }
 
     /**

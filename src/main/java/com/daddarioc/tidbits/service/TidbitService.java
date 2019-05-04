@@ -37,6 +37,12 @@ public interface TidbitService {
     Optional<TidbitDTO> findOne(Long id);
 
     /**
+     * Retrieve a random tidbit
+     * @return the entity
+     */
+    Optional<TidbitDTO> getRandom();
+
+    /**
      * Delete the "id" tidbit.
      *
      * @param id the id of the entity

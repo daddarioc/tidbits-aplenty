@@ -109,6 +109,14 @@ public class TidbitResource {
         return ResponseEntity.ok().body(tidbitQueryService.countByCriteria(criteria));
     }
 
+    @GetMapping("/tidbits/random")
+    public ResponseEntity<TidbitDTO> getRandomTidbit() {
+        log.debug("REST request to get random tidbit");
+
+        Optional<TidbitDTO> randomTidbit = tidbitService.getRandom();
+        return ResponseUtil.wrapOrNotFound(randomTidbit);
+    }
+
     /**
      * GET  /tidbits/:id : get the "id" tidbit.
      *
